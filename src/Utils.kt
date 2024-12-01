@@ -1,20 +1,19 @@
-import java.math.BigInteger
-import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readText
 
 /**
  * Reads lines from the given input txt file.
  */
-fun readInput(name: String) = Path("src/$name.txt").readText().trim().lines()
+fun readInput(filename: String) : List<String> = Path("src/$filename.txt").readText().trim().lines()
 
-/**
- * Converts string to md5 hash.
- */
-fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
-    .toString(16)
-    .padStart(32, '0')
-
+fun prepLists(input: List<String>) : Pair<List<Int>, List<Int>> {
+    val (left, right) = input.map { line:String  ->
+        val first = line.substringBefore(" ").toInt()
+        val second = line.substringAfterLast(" ").toInt()
+        first to second
+    }.unzip()
+    return Pair(left,right)
+}
 /**
  * The cleaner shorthand for printing output.
  */
